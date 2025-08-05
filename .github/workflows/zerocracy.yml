@@ -9,6 +9,10 @@ concurrency:
 jobs:
   zerocracy:
     runs-on: ubuntu-24.04
+    permissions:
+      contents: write  # Для записи изменений
+      pages: write     # Если развертывание на GitHub Pages
+      id-token: write  # Для OIDC-аутентификации, если нужно
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
