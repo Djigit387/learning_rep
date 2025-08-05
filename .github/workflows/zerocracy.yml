@@ -1,8 +1,8 @@
 name: zerocracy
 on:
-  schedule:
-    - cron: '17 * * * *'  # Ежечасно в 17-ю минуту (замените на своё случайное число от 0 до 59, если нужно)
-  workflow_dispatch:  # Добавлено для ручного запуска через UI
+  # schedule:
+  #   - cron: '17 * * * *'  # Ежечасно
+  workflow_dispatch:  # Для ручного запуска
 concurrency:
   group: zerocracy
   cancel-in-progress: false
@@ -10,19 +10,22 @@ jobs:
   zerocracy:
     runs-on: ubuntu-24.04
     timeout-minutes: 25
+    permissions:  # Добавьте этот блок для прав на запись
+      contents: write  # Необходим для деплоя на gh-pages
     steps:
       - uses: actions/checkout@v4
-      - uses: zerocracy/judges-action@0.15.6  # Актуальная версия
+      - uses: zerocracy/judges-action@0.15.6
         with:
           token: ${{ secrets.ZEROCRACY_TOKEN }}
-          github-token: ${{ secrets.ZEROCRACY_PAT }}
-          repositories: Djigit387/learning_rep  # Адаптировано под ваш репозиторий; добавьте через запятую, если несколько
-          factbase: lap.fb  # Исправлено на learning.fb; замените на своё, если нужно
+          github-token: ${{ secrets.ZEROCRACY_PAT }}  # Оставьте для judges, если нужен API-доступ
+          repositories: Djigit387/learning_rep
+          factbase: lap.fb
       - uses: zerocracy/pages-action@0.2.0
         with:
-          github-token: ${{ secrets.ZEROCRACY_PAT }}
+          github-token: ${{ github.token }}  # Используйте GITHUB_TOKEN (встроенный) вместо PAT для Pages
           factbase: lap.fb
       - uses: JamesIves/github-pages-deploy-action@v4.6.0
         with:
           folder: pages
           clean: false
+          token: ${{ github.token }}  # Добавьте token: GITHUB_TOKEN для deploy (если не указан, action использует его по умолчанию)
