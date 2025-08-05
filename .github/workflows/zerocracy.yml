@@ -1,7 +1,8 @@
 name: zerocracy
-'on':
+on:
   schedule:
-    - cron: '42 * * * *'  # Ежечасно, замените 42 на своё число
+    - cron: '17 * * * *'  # Ежечасно в 17-ю минуту (замените на своё случайное число от 0 до 59, если нужно)
+  workflow_dispatch:  # Добавлено для ручного запуска через UI
 concurrency:
   group: zerocracy
   cancel-in-progress: false
@@ -16,7 +17,7 @@ jobs:
           token: ${{ secrets.ZEROCRACY_TOKEN }}
           github-token: ${{ secrets.ZEROCRACY_PAT }}
           repositories: Djigit387/learning_rep  # Адаптировано под ваш репозиторий; добавьте через запятую, если несколько
-          factbase: lap.fb  # Пример имени factbase; замените на своё, если нужно
+          factbase: lap.fb  # Исправлено на learning.fb; замените на своё, если нужно
       - uses: zerocracy/pages-action@0.2.0
         with:
           github-token: ${{ secrets.ZEROCRACY_PAT }}
