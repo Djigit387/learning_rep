@@ -1,0 +1,27 @@
+name: zerocracy
+'on':
+  schedule:
+    - cron: '42 * * * *'  # Ежечасно, замените 42 на своё число
+concurrency:
+  group: zerocracy
+  cancel-in-progress: false
+jobs:
+  zerocracy:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: zerocracy/judges-action@0.15.6  # Актуальная версия
+        with:
+          token: ${{ secrets.ZEROCRACY_TOKEN }}
+          github-token: ${{ secrets.ZEROCRACY_PAT }}
+          repositories: Djigit387/learning_rep  # Адаптировано под ваш репозиторий; добавьте через запятую, если несколько
+          factbase: lap.fb  # Пример имени factbase; замените на своё, если нужно
+      - uses: zerocracy/pages-action@0.2.0
+        with:
+          github-token: ${{ secrets.ZEROCRACY_PAT }}
+          factbase: lap.fb
+      - uses: JamesIves/github-pages-deploy-action@v4.6.0
+        with:
+          folder: pages
+          clean: false
