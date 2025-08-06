@@ -9,13 +9,11 @@ concurrency:
 jobs:
   zerocracy:
     runs-on: ubuntu-24.04
-    permissions:
-      contents: write  # Для записи изменений
-      pages: write     # Если развертывание на GitHub Pages
-      id-token: write  # Для OIDC-аутентификации, если нужно
     timeout-minutes: 25
     permissions:  # Добавьте этот блок для прав на запись
       contents: write  # Необходим для деплоя на gh-pages
+      pages: write     # Если развертывание на GitHub Pages
+      id-token: write  # Для OIDC-аутентификации, если нужно
     steps:
       - uses: actions/checkout@v4
       - uses: zerocracy/judges-action@0.15.6
